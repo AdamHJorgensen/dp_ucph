@@ -16,7 +16,12 @@ def solve_VFI(par):
         V_next = V_now.copy()
         for w in range(par.W+1):
             #Fill in
+            c = np.arange(w+1)
+            w_next = w - c
+            V_guess = np.sqrt(c) + par.beta*V_next[w_next]
             
+            V_now[w] = np.amax(V_guess, axis=0)
+            Cstar[w] = c[np.argmax(V_guess, axis=0)]
             
             
             
