@@ -29,7 +29,7 @@ def solve_consumption_grid_search(par):
                                         #       Proceed as in Exercise_2.py
             c = grid_C * w
             w_next = w - c
-            V_guess = np.sqrt(c) + par.beta * np.interp(w_next,grid_W,V_next)
+            V_guess = np.sqrt(c) + par.beta * np.interp(w_next,grid_W,sol.V)
 
             sol.V[iw] = np.amax(V_guess)
             sol.C[iw] = c[np.argmax(V_guess)]
