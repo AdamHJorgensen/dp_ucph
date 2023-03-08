@@ -58,12 +58,16 @@ def solve_deaton_infty(par):
             #fill in
             #Hint: Similar to Exercise_6
             
+            c = grid_C * w
             
+            EV = 0
+            for i_k in range(par.num_shocks):
+                w_next = (w - c)*par.R + par.eps[i_k]  
+                EV += interp(w_next) * par.eps_w[i_k]
             
-            
-            
-            
-            
+            V_guess = util(c,par) + par.beta * EV
+            sol.V[iw] = np.amax(V_guess)
+            sol.C[iw] = c[np.argmax(V_guess)]
             
         
         sol.it += 1
