@@ -80,7 +80,7 @@ class zurcher():
         #Calculate [I-Fu]^{-1} if not given
         if Finv is None:
             self.unc_state_transition(pk)
-        
+    
         # Euler constant
         eulerc = np.euler_gamma
         
@@ -88,8 +88,12 @@ class zurcher():
         #Fill in
         #Hint:  Use the small psi function from slides
         #       Make sure to get E[\epsilon(a)|a,x] correct
+        u_keep = - self.cost + eulerc - np.log(pk)
+        u_replace = - self.cost[0] - self.RC + eulerc - np.log(1-pk)
+        
+        Vsigma = self.Finv @ (pk * u_keep + (1-pk) * u_replace)
 
-        #self.Vsigma = 
+        self.Vsigma = Vsigma
 
     def lambdaa(self):
         '''Evaluate lambda function (mapping from Vsigma to updated CCP)'''
@@ -99,9 +103,11 @@ class zurcher():
         #Hint:  Use the big lambda function from slides
         #       This is just the choice probability expression as used in NFXP
         
-        #pk=
+        v_keep      = -self.cost + self.beta * self.P1 @ self.Vsigma
+        v_replace   = -self.cost[0] - self.RC + self.beta * self.P2 @ self.Vsigma
+        pk = 1/(1+np.exp(v_replace-v_keep))
         
-        return  pk
+        return pk
 
     def bellman(self,ev0,output=1):
         '''Evaluate Bellman operator, choice probability and Frechet derivative - written in integrated value form'''

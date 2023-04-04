@@ -68,7 +68,7 @@ def ll(theta, model, data, pk0,out=1):
 
     # Update CCPs
     #Fill in
-    #pk =
+    pk = model.Psi(pk0)
     
     #Map choice probabilities to data
     pKdata = pk[data.x] 
@@ -79,7 +79,7 @@ def ll(theta, model, data, pk0,out=1):
 
     #Calculate log-likelihood
     #Fill in
-    #log_lik = 
+    log_lik = data.dk * np.log(pKdata) + data.dr * np.log(1-pKdata)
     
     #Return log-likelihood if out = 1
     f = -np.mean(log_lik)
